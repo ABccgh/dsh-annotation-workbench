@@ -139,7 +139,7 @@ ANNOTATION_DATA_ROOT=<数据根> ANNOTATION_DEVICE_FILE=<device.json> node scrip
 ANNOTATION_DATA_ROOT=<数据根> ANNOTATION_DEVICE_FILE=<device.json> node scripts/smoke-api.mjs
 ```
 
-CI：`.github/workflows/test.yml` 在 push / pull request 时用 Node 22 运行 `npm test`。
+CI：`.github/workflows/test.yml` 在 push / pull request 时用 Node 22 运行 `node --test test/*.test.js`。
 
 代码约定：Host 只 import `node:*` 和相对文件；Client 只 `require('react')`；不引入第三方依赖。详见 [CONTRACT.md](CONTRACT.md)。
 

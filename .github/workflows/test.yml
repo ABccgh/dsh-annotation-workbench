@@ -18,4 +18,4 @@ jobs:
         with:
           node-version: 22
       - name: Run tests
-        run: npm test
+        run: node --test test/*.test.js
