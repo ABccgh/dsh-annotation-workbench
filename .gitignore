@@ -1,0 +1,12 @@
+node_modules/
+coverage/
+.artifacts/
+*.tmp
+*.log
+.DS_Store
+.env
+.env.*
+*.local.json
+annotation-projects/
+.trash/
+client-errors.jsonl

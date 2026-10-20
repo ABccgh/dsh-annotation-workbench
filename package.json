@@ -1,0 +1,67 @@
+{
+  "name": "@local/annotation-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-machine data annotation workbench for DeepSeek Harness: five modality editors, self-review, agreement, exports, and an annotation Agent preset.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "annotation",
+    "data-labeling"
+  ],
+  "homepage": "https://github.com/ABccgh/dsh-annotation-workbench#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABccgh/dsh-annotation-workbench.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ABccgh/dsh-annotation-workbench/issues"
+  },
+  "license": "MIT",
+  "author": "ABccgh",
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./tools": "./tools.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "tools.js",
+    "client.js",
+    "cordis.patch.yml",
+    "lib/**/*.js",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "CONTRACT.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": false,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  }
+}

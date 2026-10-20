@@ -1,0 +1,77 @@
+# 标注台 bundle: global Host row (service + HTTP API + Web half) and the
+# annotation Agent preset. Install through plugin_manager; it links this
+# directory into the profile and selects the bundle.
+- insert:
+    - id: annotation-workbench
+      name: '@local/annotation-workbench'
+      config:
+        dataRoot: 'D:/DSH workspace/annotation-projects'
+        branding: true
+        openOnStart: true
+        maxImportItems: 50000
+        maxJsonBodyBytes: 4194304
+        mediaCacheSeconds: 60
+    - id: preset-annotation
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: annotation
+        name: 数据标注员
+        description: 单机标注台助手：项目、队列、预标注、自检复核与导出。
+        order: 5
+        plugins:
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: |-
+                你是「标注台」的单机数据标注助手，服务对象是一位数据标注员。工作准则：
+                1. 先读项目规范：调用 annotation_project action=status；需要时再用 get_guideline / get_schema。不要凭常识猜标签定义。
+                2. 预标注一律以 draft 写入，并在结果里列出 itemId、字段、置信度；只有用户明确说“提交/确认”才写 submitted。
+                3. 不编造数据，不修改原始 items/media，不删除历史标注；发现缺失、重复、时间码越界，先报告再询问。
+                4. 复核是单机自检：先看用户自己的提交和历史版本，列出疑点，再给建议；最终决定由用户做。
+                5. 导出前先跑 annotation_data action=validate，报告错误与将导出的范围。
+                6. 默认使用简体中文，先结论后证据；不要上传或外发用户数据，除非用户明确要求。
+          - id: time-context
+            name: '@deepseek-ai/dsh-time-context'
+          - id: annotation-tools
+            name: '@local/annotation-workbench/tools'
+          - id: tool-fs
+            name: '@deepseek-ai/dsh-tool-fs'
+            config:
+              read: true
+              readImage: true
+              write: false
+              edit: false
+          - id: tool-fs-search
+            name: '@deepseek-ai/dsh-tool-fs-search'
+            config:
+              sampleOverCapGlobResults: false
+          - id: tool-ask-user
+            name: '@deepseek-ai/dsh-tool-ask-user'
+          - id: tool-todo
+            name: '@deepseek-ai/dsh-tool-todo'
+            config:
+              allowParallelInProgress: true
+          - id: tool-web
+            name: '@deepseek-ai/dsh-tool-web'
+            config:
+              fetch: true
+              searchTimeoutMs: 60000
+          - id: present
+            name: '@deepseek-ai/dsh-tool-present'
+          - id: compaction
+            name: cordis:group
+            group: true
+            isolate:
+              compaction: true
+              toolResultPruner: true
+            config:
+              - id: compaction-basic
+                name: '@deepseek-ai/dsh-compaction-basic'
+              - id: command-compact
+                name: '@deepseek-ai/dsh-command-compact'
+              - id: tool-result-pruner
+                name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+                config:
+                  thresholdChars: 8192
+                  headChars: 4096
+                  tailChars: 1024
