@@ -5,7 +5,8 @@
     - id: annotation-workbench
       name: '@local/annotation-workbench'
       config:
-        dataRoot: 'D:/DSH workspace/annotation-projects'
+        # dataRoot defaults to %DSH_HOME%/annotation-projects. Set it here only
+        # if this machine needs a custom local data directory.
         branding: true
         openOnStart: true
         maxImportItems: 50000
